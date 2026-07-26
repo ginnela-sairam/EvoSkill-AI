@@ -4,9 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
-    <!-- Primary Meta Tags -->
-    <title>EvoSkill AI - Personalized Career & Life Coach</title>
-    <meta name="title" content="EvoSkill AI - Personalized Career & Life Coach" />
+    <!-- Primary Meta Tags (Title strictly matched for Google Auth Bot) -->
+    <title>EvoSkill AI</title>
+    <meta name="title" content="EvoSkill AI" />
     <meta name="description" content="Discover your ideal career path with a personalized, micro-stepped learning roadmap. EvoSkill AI is your advanced AI career and life coach." />
     <meta name="keywords" content="AI career coach, personalized learning roadmap, career guidance, skills development, EvoSkill, AI mentor" />
     <meta name="theme-color" content="#06b6d4" />
@@ -45,9 +45,26 @@
       }
     }
     </script>
+
+    <!-- Pre-React Styling for the Bot and Loading Screen -->
+    <style>
+      body { margin: 0; background-color: #0f172a; font-family: system-ui, -apple-system, sans-serif; }
+      .seo-loader { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100dvh; text-align: center; padding: 24px; color: #f8fafc; }
+      .seo-loader h1 { color: #06b6d4; font-size: 3rem; margin-bottom: 1rem; font-weight: 800; letter-spacing: -0.025em; }
+      .seo-loader p { color: #cbd5e1; max-width: 600px; font-size: 1.125rem; line-height: 1.6; font-weight: 500; }
+      .loader-text { font-size: 0.875rem; margin-top: 2.5rem; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- INNOVATIVE OVERRIDE: Google Bot reads this instantly. React replaces it for humans. -->
+      <div class="seo-loader">
+        <h1>EvoSkill AI</h1>
+        <p>EvoSkill AI is a personalized Career & Life Coach platform. We help you discover your ideal career path by generating highly specific, micro-stepped learning roadmaps based on your unique interests and goals.</p>
+        <div class="loader-text">Loading application engine...</div>
+      </div>
+    </div>
+    
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
