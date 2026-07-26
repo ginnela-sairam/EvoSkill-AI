@@ -95,7 +95,6 @@ export default function App() {
       if (err.code === 'auth/popup-blocked' || (err.message && err.message.includes('popup-blocked'))) {
         setAuthError('Sign-in popup was blocked by your browser. Please click the "Open in new tab" button at the top right of the preview window to sign in, or allow popups for this site.');
       } else if (err.code === 'auth/popup-closed-by-user' || (err.message && err.message.includes('popup-closed-by-user'))) {
-        // User closed the popup, ignore it
         console.log("User closed sign-in popup.");
       } else {
         setAuthError(`Login failed: ${err.message}`);
@@ -160,10 +159,6 @@ export default function App() {
   const handleStartOver = async () => {
     setRoadmap(null);
     localStorage.removeItem('evoskill_chat_history');
-    if (user) {
-      // We could also clear the DB roadmap here if we wanted to truly start fresh, 
-      // but let's just clear the local state for now so they can generate a new one.
-    }
   };
 
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -184,7 +179,6 @@ export default function App() {
     }
   }, [user]);
 
-  // Workspace Actions
   const handleExportTasks = async () => {
     if (!roadmap) return;
     setIsExporting(true);
@@ -249,7 +243,6 @@ export default function App() {
     }
   };
 
-
   if (isLoadingRoadmap) {
     return (
       <div className="min-h-[100dvh] flex flex-col items-center justify-center bg-slate-50 dark:bg-slate-950 p-6 text-slate-900 dark:text-slate-50 font-sans">
@@ -262,50 +255,85 @@ export default function App() {
   return (
     <ErrorBoundary>
       {needsAuth ? (
-        <div className="min-h-[100dvh] flex flex-col items-center justify-center bg-slate-50 dark:bg-slate-950 p-6 text-slate-900 dark:text-slate-50 font-sans">
-          <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center mb-8 shadow-2xl shadow-cyan-500/20">
-            <Sparkles className="w-10 h-10 text-slate-900 dark:text-white" />
-          </div>
-          <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight">EvoSkill AI</h1>
-          <p className="text-slate-600 dark:text-slate-400 text-center mb-10 max-w-xs font-medium leading-relaxed">
-            Discover your ideal career path with a personalized, micro-stepped learning roadmap.
-          </p>
+        <div className="min-h-[100dvh] flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-50 font-sans">
           
-          {inAppBrowserDetected ? (
-            <div className="w-full max-w-sm bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 p-6 rounded-3xl text-center space-y-4">
-              <div className="w-12 h-12 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-2">
-                <Compass className="w-6 h-6 text-cyan-400" />
+          {/* Main Landing Section */}
+          <main className="flex-1 flex flex-col items-center justify-center p-6 text-center max-w-5xl mx-auto mt-12 mb-8">
+            <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center mb-8 shadow-2xl shadow-cyan-500/20 mx-auto">
+              <Sparkles className="w-10 h-10 text-white" />
+            </div>
+            
+            <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 dark:text-white mb-6 tracking-tight">
+              EvoSkill AI
+            </h1>
+            
+            <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-12 max-w-3xl font-medium leading-relaxed">
+              A personalized Career & Life Coach platform. Discover your ideal career path by generating highly specific, micro-stepped learning roadmaps based on your unique interests and goals. Track your progress, manage daily tasks, and master complex subjects with an interactive AI Study Buddy.
+            </p>
+
+            {/* Feature Highlights (Required for Google Verification) */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 text-left w-full">
+              <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                <h3 className="font-bold text-cyan-600 dark:text-cyan-400 mb-2">Smart Roadmaps</h3>
+                <p className="text-sm text-slate-600 dark:text-slate-400">Generate a custom A-to-Z learning path tailored to your specific time commitment and goals.</p>
               </div>
-              <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100">Action Required</h2>
-              <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                For security and performance, please open this link in your standard browser (Chrome/Safari).
-              </p>
-              <div className="bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-800 text-left">
-                <p className="text-xs text-slate-500 dark:text-slate-500 font-bold uppercase tracking-wider mb-2">How to do this:</p>
-                <ol className="text-sm text-slate-700 dark:text-slate-300 space-y-2 list-decimal list-inside">
-                  <li>Tap the menu icon (•••) at the top right</li>
-                  <li>Select <span className="font-semibold text-slate-900 dark:text-white">"Open in browser"</span></li>
-                </ol>
+              <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                <h3 className="font-bold text-cyan-600 dark:text-cyan-400 mb-2">AI Study Buddy</h3>
+                <p className="text-sm text-slate-600 dark:text-slate-400">Get stuck on a topic? Chat with your dedicated AI mentor for deep-dive explanations and guidance.</p>
+              </div>
+              <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                <h3 className="font-bold text-cyan-600 dark:text-cyan-400 mb-2">Track Progress</h3>
+                <p className="text-sm text-slate-600 dark:text-slate-400">Export tasks to Google Workspace, track your daily streak, and monitor your focus hours.</p>
               </div>
             </div>
-          ) : (
-            <div className="w-full max-w-sm flex flex-col items-center gap-4">
-              <button 
-                onClick={handleLogin}
-                disabled={isLoggingIn}
-                className="w-full py-4 rounded-2xl bg-white text-slate-950 font-bold text-lg flex items-center justify-center gap-3 active:scale-95 hover:scale-105 transition-all shadow-xl"
-              >
-                {isLoggingIn ? <Loader2 className="w-6 h-6 animate-spin text-slate-950" /> : <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" className="w-6 h-6" alt="Google" />}
-                Continue with Google
-              </button>
-              
-              {authError && (
-                <div className="w-full bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 p-4 rounded-2xl text-sm font-medium text-center shadow-lg">
-                  {authError}
+
+            {/* Login Section */}
+            {inAppBrowserDetected ? (
+              <div className="w-full max-w-sm bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 p-6 rounded-3xl text-center space-y-4">
+                <div className="w-12 h-12 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <Compass className="w-6 h-6 text-cyan-400" />
                 </div>
-              )}
-            </div>
-          )}
+                <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100">Action Required</h2>
+                <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                  For security and performance, please open this link in your standard browser (Chrome/Safari).
+                </p>
+                <div className="bg-slate-50 dark:bg-slate-950 p-4 rounded-xl border border-slate-200 dark:border-slate-800 text-left">
+                  <p className="text-xs text-slate-500 dark:text-slate-500 font-bold uppercase tracking-wider mb-2">How to do this:</p>
+                  <ol className="text-sm text-slate-700 dark:text-slate-300 space-y-2 list-decimal list-inside">
+                    <li>Tap the menu icon (•••) at the top right</li>
+                    <li>Select <span className="font-semibold text-slate-900 dark:text-white">"Open in browser"</span></li>
+                  </ol>
+                </div>
+              </div>
+            ) : (
+              <div className="w-full max-w-sm flex flex-col items-center gap-4 mx-auto">
+                <button 
+                  onClick={handleLogin}
+                  disabled={isLoggingIn}
+                  className="w-full py-4 rounded-2xl bg-white text-slate-950 font-bold text-lg flex items-center justify-center gap-3 active:scale-95 hover:scale-105 transition-all shadow-xl border border-slate-200"
+                >
+                  {isLoggingIn ? <Loader2 className="w-6 h-6 animate-spin text-slate-950" /> : <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" className="w-6 h-6" alt="Google" />}
+                  Sign in with Google to Start
+                </button>
+                
+                {authError && (
+                  <div className="w-full bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 p-4 rounded-2xl text-sm font-medium text-center shadow-lg">
+                    {authError}
+                  </div>
+                )}
+              </div>
+            )}
+          </main>
+
+          {/* Required Legal Footer */}
+          <footer className="w-full p-6 text-center border-t border-slate-200 dark:border-slate-800/50 mt-auto">
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              © {new Date().getFullYear()} EvoSkill AI. All rights reserved. 
+              <br className="md:hidden" />
+              <a href="/" className="underline hover:text-cyan-500 mx-2">Privacy Policy</a> | 
+              <a href="/" className="underline hover:text-cyan-500 mx-2">Terms of Service</a>
+            </p>
+          </footer>
         </div>
       ) : roadmap ? (
         <RoadmapDashboard 
