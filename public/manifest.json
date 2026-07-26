@@ -1,0 +1,17 @@
+{
+  "name": "EvoSkill AI",
+  "short_name": "EvoSkill",
+  "description": "Personalized Career & Life Coach platform",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#06b6d4",
+  "icons": [
+    {
+      "src": "/og-image.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
